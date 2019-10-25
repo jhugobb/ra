@@ -43,36 +43,33 @@ bool operator<(const std::bitset<N> &x, const std::bitset<N> &y)
 
 int main(int argc, char **argv)
 {
+    const size_t N_BITS = 16;
+    const size_t N_EXPERIMENTS = 1000;
+    const size_t N_STRINGS = 5000;
 
-    const size_t N_debug = 8;
-
-    std::multiset<bitset<N_debug>*, classcomp> S_set;
+    std::multiset<bitset<N_BITS>*, classcomp> S_set;
 
     random_device rd;
-
     mt19937 mersenne_generator(rd()); // mt19937 is a standard mersenne_twister_engine
+    uniform_int_distribution<size_t> uni(1, 2); // guaranteed unbiased
 
-    uniform_int_distribution<size_t> uni(0, 1); // guaranteed unbiased
-
-    int curr;
-    bitset<N_debug> *s_member;
     int n_ones = 0;
     std::vector<int> results;
-    for (unsigned int k = 0; k < 1000; k++) {
+    for (unsigned int k = 0; k < N_EXPERIMENTS; k++) {
       
       S_set.clear();
       bool i_chose_one = false;
       
-      for (unsigned int i = 0; i < 5000; i++)
+      for (unsigned int i = 0; i < N_STRINGS; i++)
       {
-          s_member = new bitset<N_debug>;
-          for (unsigned int j = 0; j < N_debug; j++)
-          {
-              curr = uni(mersenne_generator);
+          bitset<N_BITS> * s_member = new bitset<N_BITS>;
+          for (unsigned int j = 0; j < N_BITS; j++) {
+              int curr = uni(mersenne_generator) / 2;
               s_member->set(j, curr);
           }
           S_set.insert(s_member);
-          if(s_member->all()){
+
+          if(s_member->all()) {
             i_chose_one = true;
             n_ones++;
             break;
@@ -83,8 +80,8 @@ int main(int argc, char **argv)
       if (!i_chose_one) {
         auto end = std::prev(S_set.end());
 
-        bitset<N_debug>* a;
-        bitset<N_debug>* b;
+        bitset<N_BITS>* a;
+        bitset<N_BITS>* b;
         bool is_dominated;
         for (auto it_i=S_set.begin(); it_i!=end; ++it_i) {
             a = *it_i;
@@ -105,7 +102,6 @@ int main(int argc, char **argv)
       // cout << "Number of dominant bitsets: " << count <<  << \irflush;
       cout << k << '\r' << flush;
 
-      // cout << (*min_s < *max_s) << endl;
       results.push_back(count);
     }
     
@@ -115,6 +111,11 @@ int main(int argc, char **argv)
     cout << results[results.size()/2] << endl;
 
     cout << "Number of times we chose 1's: " << n_ones << endl;
+
+#ifdef _WIN32
+    system("pause");
+#endif // _WIN32
+
 
     return 0;
 }
