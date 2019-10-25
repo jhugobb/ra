@@ -8,7 +8,7 @@ project(${NAME})
 
 set(PROJECT_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../)
 
-set(CMAKE_CXX_FLAGS "-Wall --std=c++14 -g")
+set(CMAKE_CXX_FLAGS "-Wall --std=c++14 -O3")
 
 
 file(GLOB ${NAME}_HEADERS *.hpp)
