@@ -96,7 +96,7 @@ int main(int argc, char **argv)
             }
         }
 
-        unsigned int count = 1;
+        unsigned int count = 0;
         if (!i_chose_one)
         {
             auto end = std::prev(S_set.end());
@@ -124,6 +124,7 @@ int main(int argc, char **argv)
                 }
             }
         } else {
+            count++;
             output.push_back(std::bitset<N_BITS>().flip());
         }
         // std::cout << "Max value on the set: " << *(*--S_set.end()) << endl;
