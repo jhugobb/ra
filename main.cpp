@@ -9,7 +9,7 @@
 using namespace std;
 
 const size_t N_BITS = 16;
-const size_t N_EXPERIMENTS = 1000;
+const size_t N_EXPERIMENTS = 6400;
 const size_t N_STRINGS = 8000;
 
 template <size_t N>
@@ -132,7 +132,7 @@ int main(int argc, char **argv)
         std::cout << k << '\r' << flush;
 
         std::string tmp;
-        for (uint i = 0; i < output.size(); i++) {
+        for (unsigned int i = 0; i < output.size(); i++) {
             tmp = output[i].to_string<char,std::string::traits_type,std::string::allocator_type>();
             f << tmp << std::endl;
         }
