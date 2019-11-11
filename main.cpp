@@ -9,7 +9,7 @@
 using namespace std;
 
 const size_t N_BITS = 16;
-const size_t N_EXPERIMENTS = 6400;
+const size_t N_EXPERIMENTS = 1000;
 const size_t N_STRINGS = 8000;
 
 template <size_t N>
@@ -106,15 +106,24 @@ int main(int argc, char **argv)
             bool is_dominated;
             for (auto it_i = S_set.begin(); it_i != end; ++it_i)
             {
+
                 a = *it_i;
                 is_dominated = false;
-                for (auto it_j = std::next(it_i); it_j != S_set.end(); ++it_j)
-                {
-                    b = *it_j;
-                    if (IsDominated(*a, *b))
+
+                auto next = std::next(it_i);
+                auto prev = std::prev(it_i);
+                if (next != S_set.end() && **next == *a) is_dominated = true;
+                if (prev != S_set.end() && **prev == *a) is_dominated = true;
+
+                if (!is_dominated) {
+                    for (auto it_j = std::next(it_i); it_j != S_set.end(); ++it_j)
                     {
-                        is_dominated = true;
-                        break;
+                        b = *it_j;
+                        if (IsDominated(*a, *b))
+                        {
+                            is_dominated = true;
+                            break;
+                        }
                     }
                 }
                 if (!is_dominated)
